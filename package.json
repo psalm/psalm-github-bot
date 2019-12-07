@@ -11,7 +11,8 @@
   "keywords": [
     "probot",
     "github",
-    "probot-app"
+    "probot-app",
+    "psalm"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
