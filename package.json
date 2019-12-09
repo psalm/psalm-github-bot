@@ -16,8 +16,8 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "dev": "nodemon --exec \"npm start\"",
-    "start": "probot run ./lib/index.js",
+    "dev": "FORCE_COLOR=0 nodemon --exec \"yarn start\"",
+    "start": "FORCE_COLOR=0 probot run ./lib/index.js",
     "lint": "standard **/*.ts --fix",
     "test": "jest && standard **/*.ts",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
@@ -29,6 +29,7 @@
     "@types/jest": "^24.0.19",
     "@types/nock": "^11.1.0",
     "@types/node": "^12.11.1",
+    "@types/node-fetch": "^2.5.4",
     "@typescript-eslint/parser": "^2.4.0",
     "eslint-plugin-typescript": "^0.14.0",
     "jest": "^24.9.0",
