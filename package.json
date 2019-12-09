@@ -16,8 +16,8 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "dev": "FORCE_COLOR=0 nodemon --exec \"yarn start\"",
-    "start": "FORCE_COLOR=0 probot run ./lib/index.js",
+    "dev": "FORCE_COLOR=0 nodemon --exec \"npm start\"",
+    "start": "npm run-script build && FORCE_COLOR=0 probot run ./lib/index.js",
     "lint": "standard **/*.ts --fix",
     "test": "jest && standard **/*.ts",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
@@ -41,7 +41,7 @@
     "typescript": "^3.6.4"
   },
   "engines": {
-    "node": ">= 8.3.0"
+    "node": ">= 10.17.0"
   },
   "standard": {
     "parser": "@typescript-eslint/parser",
