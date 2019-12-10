@@ -1,6 +1,7 @@
 import { Application } from 'probot' // eslint-disable-line no-unused-vars
 import { CommentParser, LinkEntry } from './CommentParser'
 import { SnippetResolver } from './SnippetResolver'
+import express from 'express'
 
 export = (app: Application) => {
   const parser = new CommentParser;
@@ -108,5 +109,13 @@ ${snippet.results.results.length ? snippet.results.results.map(issue => `${issue
       context.github.issues.deleteComment(context.issue({comment_id: existingResponseId}));
       responses.delete(comment.id);
     }
+  });
+
+  const router = app.route();
+  router.use(express.json());
+
+  app.route().post('/deploy', (req, res) => {
+    app.log(req.body);
+    res.sendStatus(200);
   });
 }
