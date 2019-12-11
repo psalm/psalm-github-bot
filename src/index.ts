@@ -1,7 +1,7 @@
 import { Application } from 'probot' // eslint-disable-line no-unused-vars
 import { CommentParser, LinkEntry } from './CommentParser'
 import { SnippetResolver } from './SnippetResolver'
-import express from 'express'
+import { execSync } from 'child_process'
 
 export = (app: Application) => {
   const parser = new CommentParser;
@@ -111,11 +111,32 @@ ${snippet.results.results.length ? snippet.results.results.map(issue => `${issue
     }
   });
 
-  const router = app.route();
-  router.use(express.json());
+  if (process.env.DEPLOYMENTS_ENABLED) {
+    app.on('release.published', async(context) => {
+      if (context.payload.repository.full_name !== process.env.DEPLOYMENTS_REPO) {
+        return;
+      }
+      if (context.payload.release.prerelease && (process.env.DEPLOYMENTS_ENABLED !== 'all')) {
+        return;
+      }
+      const release = context.payload.release;
 
-  app.route().post('/deploy', (req, res) => {
-    app.log(req.body);
-    res.sendStatus(200);
-  });
+      const commands = [
+        'git fetch origin',
+        `git checkout "${release.tag_name}"`,
+        `git reset --hard "${release.tag_name}"`,
+        'npm install',
+        'npm run-script build',
+        'command -v refresh >/dev/null 2>&1 && refresh || true'
+      ];
+
+      context.log.info(`Updating to release ${release.tag_name}`);
+
+      for (const cmd of commands) {
+        context.log.debug('Running command', execSync(cmd).toString());
+      }
+
+      context.log.info(`Updated to release ${release.tag_name}`);
+    });
+  }
 }
