@@ -4,21 +4,21 @@ import { SnippetResolver } from './SnippetResolver'
 import { execSync } from 'child_process'
 
 export = (app: Application) => {
-  const parser = new CommentParser;
-  const resolver = new SnippetResolver;
+  const parser = new CommentParser()
+  const resolver = new SnippetResolver()
 
   const makeResponse = async (links: LinkEntry[]): Promise<string> => {
     const resolvedSnippets = await Promise.all(
       links.map(
-        entry => 
+        entry =>
           resolver.resolve(entry.snippet)
             .then(
-              result => { 
-                return {...result, link: entry.link}; 
+              result => {
+                return { ...result, link: entry.link }
               }
             )
       )
-    );
+    )
 
     return `I found these snippets:
 ${resolvedSnippets.map(snippet => `
@@ -35,91 +35,91 @@ ${snippet.results.results.length ? snippet.results.results.map(issue => `${issue
 \`\`\`
 </details>
 `).join('\n')}
-`;
-  };
+`
+  }
 
-  let responses: Map<number, number> = new Map;
+  const responses: Map<number, number> = new Map()
 
-  app.on('issues.opened', async(context) => {
+  app.on('issues.opened', async (context) => {
     if (!context.isBot) {
-      const issue = context.payload.issue;
+      const issue = context.payload.issue
 
-      const links = parser.parseComment(issue.body);
+      const links = parser.parseComment(issue.body)
       if (links.length) {
-        const issueComment = context.issue({body: await makeResponse(links)});
-        const result = await context.github.issues.createComment(issueComment);
-        responses.set(issue.id, result.data.id);
+        const issueComment = context.issue({ body: await makeResponse(links) })
+        const result = await context.github.issues.createComment(issueComment)
+        responses.set(issue.id, result.data.id)
       }
     }
-  });
+  })
 
-  app.on('issue_comment.created', async(context) => {
+  app.on('issue_comment.created', async (context) => {
     if (!context.isBot) {
-      const comment = context.payload.comment;
+      const comment = context.payload.comment
 
-      const links = parser.parseComment(comment.body);
+      const links = parser.parseComment(comment.body)
       if (links.length) {
-        const issueComment = context.issue({body: await makeResponse(links)});
-        const result = await context.github.issues.createComment(issueComment);
+        const issueComment = context.issue({ body: await makeResponse(links) })
+        const result = await context.github.issues.createComment(issueComment)
 
-        responses.set(comment.id, result.data.id);
+        responses.set(comment.id, result.data.id)
       }
     }
-  });
+  })
 
-  app.on('issues.edited', async(context) => {
-    const issue = context.payload.issue;
+  app.on('issues.edited', async (context) => {
+    const issue = context.payload.issue
 
     if (responses.has(issue.id)) {
-      const links = parser.parseComment(issue.body);
-      const existingResponseId = responses.get(issue.id) as number;
+      const links = parser.parseComment(issue.body)
+      const existingResponseId = responses.get(issue.id) as number
 
       if (links.length) {
-        const issueComment = context.issue({comment_id: existingResponseId, body: await makeResponse(links)});
-        context.github.issues.updateComment(issueComment);
+        const issueComment = context.issue({ comment_id: existingResponseId, body: await makeResponse(links) })
+        context.github.issues.updateComment(issueComment)
       } else {
-        context.github.issues.deleteComment(context.issue({comment_id: existingResponseId}));
-        responses.delete(issue.id);
+        context.github.issues.deleteComment(context.issue({ comment_id: existingResponseId }))
+        responses.delete(issue.id)
       }
     }
-  });
+  })
 
-  app.on('issue_comment.edited', async(context) => {
-    const comment = context.payload.comment;
+  app.on('issue_comment.edited', async (context) => {
+    const comment = context.payload.comment
 
     if (responses.has(comment.id)) {
-      const existingResponseId = responses.get(comment.id) as number;
-      const links = parser.parseComment(comment.body);
+      const existingResponseId = responses.get(comment.id) as number
+      const links = parser.parseComment(comment.body)
 
       if (links.length) {
-        const issueComment = context.issue({comment_id: existingResponseId, body: await makeResponse(links)});
-        context.github.issues.updateComment(issueComment);
+        const issueComment = context.issue({ comment_id: existingResponseId, body: await makeResponse(links) })
+        context.github.issues.updateComment(issueComment)
       } else {
-        context.github.issues.deleteComment(context.issue({comment_id: existingResponseId}));
-        responses.delete(comment.id);
+        context.github.issues.deleteComment(context.issue({ comment_id: existingResponseId }))
+        responses.delete(comment.id)
       }
     }
-  });
+  })
 
-  app.on('issue_comment.deleted', async(context) => {
-    const comment = context.payload.comment;
+  app.on('issue_comment.deleted', async (context) => {
+    const comment = context.payload.comment
 
     if (responses.has(comment.id)) {
-      const existingResponseId = responses.get(comment.id) as number;
-      context.github.issues.deleteComment(context.issue({comment_id: existingResponseId}));
-      responses.delete(comment.id);
+      const existingResponseId = responses.get(comment.id) as number
+      context.github.issues.deleteComment(context.issue({ comment_id: existingResponseId }))
+      responses.delete(comment.id)
     }
-  });
+  })
 
   if (process.env.DEPLOYMENTS_ENABLED) {
-    app.on('release.published', async(context) => {
+    app.on('release.published', async (context) => {
       if (context.payload.repository.full_name !== process.env.DEPLOYMENTS_REPO) {
-        return;
+        return
       }
       if (context.payload.release.prerelease && (process.env.DEPLOYMENTS_ENABLED !== 'all')) {
-        return;
+        return
       }
-      const release = context.payload.release;
+      const release = context.payload.release
 
       const commands = [
         'git fetch origin',
@@ -128,15 +128,18 @@ ${snippet.results.results.length ? snippet.results.results.map(issue => `${issue
         'npm install',
         'npm run-script build',
         'command -v refresh >/dev/null 2>&1 && refresh || true'
-      ];
+      ]
 
-      context.log.info(`Updating to release ${release.tag_name}`);
+      context.log.info(`Updating to release ${release.tag_name}`)
 
       for (const cmd of commands) {
-        context.log.debug('Running command', execSync(cmd).toString());
+        context.log.debug(
+          `Running command: ${cmd}`,
+          execSync(cmd).toString()
+        )
       }
 
-      context.log.info(`Updated to release ${release.tag_name}`);
-    });
+      context.log.info(`Updated to release ${release.tag_name}`)
+    })
   }
 }
