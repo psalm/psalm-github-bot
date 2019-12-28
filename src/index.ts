@@ -38,17 +38,24 @@ ${snippet.results.results.length ? snippet.results.results.map(issue => `${issue
 `
   }
 
+  const makeGreeting = (login: string): string => `Hey @${login}, can you reproduce the issue on https://psalm.dev ?` 
+
   const responses: Map<number, number> = new Map()
 
   app.on('issues.opened', async (context) => {
     if (!context.isBot) {
       const issue = context.payload.issue
-
       const links = parser.parseComment(issue.body)
+
       if (links.length) {
         const issueComment = context.issue({ body: await makeResponse(links) })
         const result = await context.github.issues.createComment(issueComment)
+
         responses.set(issue.id, result.data.id)
+      } else if (!/psalm\.dev/.test(issue.body)) {
+        const issueComment = context.issue({ body: makeGreeting(issue.user.login) })
+        const result = await context.github.issues.createComment(issueComment)
+        responses.set(issue.id, result.data.id);
       }
     }
   })
