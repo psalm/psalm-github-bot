@@ -17,7 +17,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "FORCE_COLOR=0 nodemon -w src -e ts --exec \"npm run-script start\"",
-    "start": "npm run-script build && FORCE_COLOR=0 probot run ./lib/index.js",
+    "start": "probot run ./lib/index.js",
     "lint": "standard **/*.ts --fix",
     "test": "jest && standard **/*.ts",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
