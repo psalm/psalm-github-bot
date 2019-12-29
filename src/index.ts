@@ -53,6 +53,8 @@ ${snippetOutput}
 
   const responses: Map<number, number> = new Map()
 
+  const delay = async (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms))
+
   app.on('issues.opened', async (context) => {
     if (!context.isBot) {
       const issue = context.payload.issue
@@ -60,11 +62,13 @@ ${snippetOutput}
 
       if (links.length) {
         const issueComment = context.issue({ body: await makeResponse(links) })
+        await delay(1000)
         const result = await context.github.issues.createComment(issueComment)
 
         responses.set(issue.id, result.data.id)
       } else if (!/psalm\.dev/.test(issue.body)) {
         const issueComment = context.issue({ body: makeGreeting(issue.user.login) })
+        await delay(1000)
         const result = await context.github.issues.createComment(issueComment)
         responses.set(issue.id, result.data.id)
       }
@@ -78,6 +82,7 @@ ${snippetOutput}
       const links = parser.parseComment(comment.body)
       if (links.length) {
         const issueComment = context.issue({ body: await makeResponse(links) })
+        await delay(1000)
         const result = await context.github.issues.createComment(issueComment)
 
         responses.set(comment.id, result.data.id)
