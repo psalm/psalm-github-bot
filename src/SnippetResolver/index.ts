@@ -10,16 +10,26 @@ export class SnippetResolver {
     const results = await fetch(`${url}/results`)
       .then(async(response) => await response.json());
 
+    if (results.error !== undefined) {
+      return {
+        text: text,
+        results: null,
+        internalError: results.error
+      };
+    }
+
     return {
       text: text,
-      results: results
+      results: results,
+      internalError: null
     };
   }
 }
 
 export interface ResolvedSnippet {
   text: string;
-  results: SnippetResults;
+  results: SnippetResults|null;
+  internalError: SnippetInternalError|null;
 }
 
 export interface SnippetResults {
@@ -27,6 +37,10 @@ export interface SnippetResults {
   version: string;
   fixed_contents?: string;
   hash: string;
+}
+
+export interface SnippetInternalError {
+  message: string
 }
 
 export interface SnippetIssue {

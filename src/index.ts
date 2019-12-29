@@ -21,21 +21,33 @@ export = (app: Application) => {
     )
 
     return `I found these snippets:
-${resolvedSnippets.map(snippet => `
-<details>
-<summary>${snippet.link}</summary>
+${resolvedSnippets.map(snippet => {
+  const snippetCode = `<summary>${snippet.link}</summary>
 
 \`\`\`php
 ${snippet.text}
 \`\`\`
-\`\`\`
+`
+  let snippetOutput = ""
+  if (snippet.internalError !== null) {
+    snippetOutput = `\`\`\`
+Psalm encountered an internal error:
+
+${snippet.internalError.message}
+\`\`\``
+  }
+  else if (snippet.results !== null) {
+    snippetOutput = `\`\`\`
 Psalm output (using commit ${snippet.results.version.split('@')[1].substr(0, 7)}):
 
 ${snippet.results.results.length ? snippet.results.results.map(issue => `${issue.severity.toUpperCase()}: ${issue.type} - ${issue.line_from}:${issue.column_from} - ${issue.message}`).join('\n\n') : 'No issues!'}
-\`\`\`
-</details>
-`).join('\n')}
-`
+\`\`\``
+  }
+  return `<details>
+${snippetCode}
+${snippetOutput}
+</details>`;
+}).join('\n')} `}
   }
 
   const makeGreeting = (login: string): string => `Hey @${login}, can you reproduce the issue on https://psalm.dev ?` 
