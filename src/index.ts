@@ -1,5 +1,5 @@
 import { Application } from 'probot' // eslint-disable-line no-unused-vars
-import { CommentParser, LinkEntry } from './CommentParser'
+import { CommentParser, LinkEntry } from './CommentParser' // eslint-disable-line no-unused-vars
 import { SnippetResolver } from './SnippetResolver'
 import { execSync } from 'child_process'
 
@@ -28,15 +28,14 @@ ${resolvedSnippets.map(snippet => {
 ${snippet.text}
 \`\`\`
 `
-  let snippetOutput = ""
+  let snippetOutput = ''
   if (snippet.internalError !== null) {
     snippetOutput = `\`\`\`
 Psalm encountered an internal error:
 
 ${snippet.internalError.message}
 \`\`\``
-  }
-  else if (snippet.results !== null) {
+  } else if (snippet.results !== null) {
     snippetOutput = `\`\`\`
 Psalm output (using commit ${snippet.results.version.split('@')[1].substr(0, 7)}):
 
@@ -46,11 +45,11 @@ ${snippet.results.results.length ? snippet.results.results.map(issue => `${issue
   return `<details>
 ${snippetCode}
 ${snippetOutput}
-</details>`;
-}).join('\n')} `}
+</details>`
+}).join('\n')} `
   }
 
-  const makeGreeting = (login: string): string => `Hey @${login}, can you reproduce the issue on https://psalm.dev ?` 
+  const makeGreeting = (login: string): string => `Hey @${login}, can you reproduce the issue on https://psalm.dev ?`
 
   const responses: Map<number, number> = new Map()
 
@@ -67,7 +66,7 @@ ${snippetOutput}
       } else if (!/psalm\.dev/.test(issue.body)) {
         const issueComment = context.issue({ body: makeGreeting(issue.user.login) })
         const result = await context.github.issues.createComment(issueComment)
-        responses.set(issue.id, result.data.id);
+        responses.set(issue.id, result.data.id)
       }
     }
   })
