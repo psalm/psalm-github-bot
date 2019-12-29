@@ -84,6 +84,31 @@ describe('SnippetResolver', () => {
         version: expect.stringMatching(/dev-master/),
         fixed_contents: null,
         hash: expect.stringMatching(/^[a-f0-9]+$/)
+      },
+      internalError: null
+    })
+  })
+
+  test('returns check results of a snippet with an internal error', async () => {
+    nock('https://psalm.dev')
+      .get('/r/whateverfail/raw')
+      .reply(200, '<?php whatever();')
+
+    nock('https://psalm.dev')
+      .get('/r/whateverfail/results')
+      .reply(200, {
+        error: {
+          message: 'Fatal error whatever in Foo.php',
+          line: 387,
+          type: 'psalm_error'
+        }
+      })
+
+    const resolved = await resolver.resolve('whateverfail')
+    expect(resolved).toMatchObject({
+      results: null,
+      internalError: {
+        message: 'Fatal error whatever in Foo.php'
       }
     })
   })
