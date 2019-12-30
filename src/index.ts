@@ -133,36 +133,4 @@ ${snippetOutput}
       responses.delete(comment.id)
     }
   })
-
-  if (process.env.DEPLOYMENTS_ENABLED) {
-    app.on('release.published', async (context) => {
-      if (context.payload.repository.full_name !== process.env.DEPLOYMENTS_REPO) {
-        return
-      }
-      if (context.payload.release.prerelease && (process.env.DEPLOYMENTS_ENABLED !== 'all')) {
-        return
-      }
-      const release = context.payload.release
-
-      const commands = [
-        'git fetch origin',
-        `git checkout "${release.tag_name}"`,
-        `git reset --hard "${release.tag_name}"`,
-        'npm install',
-        'npm run-script build',
-        'command -v refresh >/dev/null 2>&1 && refresh || true'
-      ]
-
-      context.log.info(`Updating to release ${release.tag_name}`)
-
-      for (const cmd of commands) {
-        context.log.debug(
-          `Running command: ${cmd}`,
-          execSync(cmd).toString()
-        )
-      }
-
-      context.log.info(`Updated to release ${release.tag_name}`)
-    })
-  }
 }
