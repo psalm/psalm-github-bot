@@ -1,55 +1,19 @@
 import { Application } from 'probot' // eslint-disable-line no-unused-vars
 import { CommentParser, LinkEntry } from './CommentParser' // eslint-disable-line no-unused-vars
 import { SnippetResolver } from './SnippetResolver'
-import { execSync } from 'child_process'
+import { Responder } from './Responder'
 
 export = (app: Application) => {
   const parser = new CommentParser()
   const resolver = new SnippetResolver()
+  const responder: Responder = new Responder()
 
   const makeResponse = async (links: LinkEntry[]): Promise<string> => {
     const resolvedSnippets = await Promise.all(
-      links.map(
-        entry =>
-          resolver.resolve(entry.snippet)
-            .then(
-              result => {
-                return { ...result, link: entry.link }
-              }
-            )
-      )
+      links.map(entry => resolver.resolve(entry.snippet))
     )
-
-    return `I found these snippets:
-${resolvedSnippets.map(snippet => {
-  const snippetCode = `<summary>${snippet.link}</summary>
-
-\`\`\`php
-${snippet.text}
-\`\`\`
-`
-  let snippetOutput = ''
-  if (snippet.internalError !== null) {
-    snippetOutput = `\`\`\`
-Psalm encountered an internal error:
-
-${snippet.internalError.message}
-\`\`\``
-  } else if (snippet.results !== null) {
-    snippetOutput = `\`\`\`
-Psalm output (using commit ${snippet.results.version.split('@')[1].substr(0, 7)}):
-
-${snippet.results.results.length ? snippet.results.results.map(issue => `${issue.severity.toUpperCase()}: ${issue.type} - ${issue.line_from}:${issue.column_from} - ${issue.message}`).join('\n\n') : 'No issues!'}
-\`\`\``
+    return responder.snippetResponse(resolvedSnippets)
   }
-  return `<details>
-${snippetCode}
-${snippetOutput}
-</details>`
-}).join('\n')} `
-  }
-
-  const makeGreeting = (login: string): string => `Hey @${login}, can you reproduce the issue on https://psalm.dev ?`
 
   const responses: Map<number, number> = new Map()
 
@@ -61,13 +25,17 @@ ${snippetOutput}
       const links = parser.parseComment(issue.body)
 
       if (links.length) {
-        const issueComment = context.issue({ body: await makeResponse(links) })
+        const issueComment = context.issue({
+          body: await makeResponse(links)
+        })
         await delay(1000)
         const result = await context.github.issues.createComment(issueComment)
 
         responses.set(issue.id, result.data.id)
       } else if (!/psalm\.dev/.test(issue.body)) {
-        const issueComment = context.issue({ body: makeGreeting(issue.user.login) })
+        const issueComment = context.issue({
+          body: responder.greet(issue.user.login)
+        })
         await delay(1000)
         const result = await context.github.issues.createComment(issueComment)
         responses.set(issue.id, result.data.id)
@@ -81,7 +49,9 @@ ${snippetOutput}
 
       const links = parser.parseComment(comment.body)
       if (links.length) {
-        const issueComment = context.issue({ body: await makeResponse(links) })
+        const issueComment = context.issue({
+          body: await makeResponse(links)
+        })
         await delay(1000)
         const result = await context.github.issues.createComment(issueComment)
 
@@ -98,10 +68,15 @@ ${snippetOutput}
       const existingResponseId = responses.get(issue.id) as number
 
       if (links.length) {
-        const issueComment = context.issue({ comment_id: existingResponseId, body: await makeResponse(links) })
+        const issueComment = context.issue({
+          comment_id: existingResponseId,
+          body: await makeResponse(links)
+        })
         context.github.issues.updateComment(issueComment)
       } else {
-        context.github.issues.deleteComment(context.issue({ comment_id: existingResponseId }))
+        context.github.issues.deleteComment(context.issue({
+          comment_id: existingResponseId
+        }))
         responses.delete(issue.id)
       }
     }
@@ -115,10 +90,15 @@ ${snippetOutput}
       const links = parser.parseComment(comment.body)
 
       if (links.length) {
-        const issueComment = context.issue({ comment_id: existingResponseId, body: await makeResponse(links) })
+        const issueComment = context.issue({
+          comment_id: existingResponseId,
+          body: await makeResponse(links)
+        })
         context.github.issues.updateComment(issueComment)
       } else {
-        context.github.issues.deleteComment(context.issue({ comment_id: existingResponseId }))
+        context.github.issues.deleteComment(context.issue({
+          comment_id: existingResponseId
+        }))
         responses.delete(comment.id)
       }
     }
@@ -129,7 +109,9 @@ ${snippetOutput}
 
     if (responses.has(comment.id)) {
       const existingResponseId = responses.get(comment.id) as number
-      context.github.issues.deleteComment(context.issue({ comment_id: existingResponseId }))
+      context.github.issues.deleteComment(context.issue({
+        comment_id: existingResponseId
+      }))
       responses.delete(comment.id)
     }
   })

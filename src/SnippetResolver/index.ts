@@ -12,6 +12,7 @@ export class SnippetResolver {
 
     if (results.error !== undefined) {
       return {
+        link: url,
         text: text,
         results: null,
         internalError: results.error
@@ -19,6 +20,7 @@ export class SnippetResolver {
     }
 
     return {
+      link: url,
       text: text,
       results: results,
       internalError: null
@@ -27,6 +29,7 @@ export class SnippetResolver {
 }
 
 export interface ResolvedSnippet {
+  link: string;
   text: string;
   results: SnippetResults|null;
   internalError: SnippetInternalError|null;
