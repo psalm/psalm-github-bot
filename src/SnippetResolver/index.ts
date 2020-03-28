@@ -10,6 +10,7 @@ export class SnippetResolver {
   }
 
   async resolve(snippetId: string): Promise<ResolvedSnippet> {
+    this.log.debug('Resolving snippet: %s', snippetId)
     const url = `https://psalm.dev/r/${snippetId}`
 
     const obs = new PerformanceObserver(list => {
