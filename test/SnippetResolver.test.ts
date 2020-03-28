@@ -9,7 +9,7 @@ describe('SnippetResolver', () => {
   let resolver: SnippetResolver
 
   beforeAll((done: Function) => {
-    resolver = new SnippetResolver(new Logger({name: 'probot'}))
+    resolver = new SnippetResolver(new Logger({ name: 'probot' }))
     done()
   })
 
