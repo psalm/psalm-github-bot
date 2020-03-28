@@ -1,15 +1,20 @@
 import { SnippetResolver } from '../src/SnippetResolver'
 import nock from 'nock'
+import Logger from 'bunyan'
+
+jest.mock('bunyan')
+const bunyan: jest.Mock<Logger> = Logger as any
 
 describe('SnippetResolver', () => {
   let resolver: SnippetResolver
 
   beforeAll((done: Function) => {
-    resolver = new SnippetResolver()
+    resolver = new SnippetResolver(new Logger({name: 'probot'}))
     done()
   })
 
   beforeEach(() => {
+    bunyan.mockClear()
     nock.disableNetConnect()
   })
 

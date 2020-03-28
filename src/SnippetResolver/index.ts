@@ -1,30 +1,48 @@
+import Logger from 'bunyan'
 import fetch from 'node-fetch'
+import {performance, PerformanceObserver} from 'perf_hooks'
 
 export class SnippetResolver {
+  log: Logger;
+
+  constructor(log: Logger) {
+    this.log = log;
+  }
+
   async resolve(snippetId: string): Promise<ResolvedSnippet> {
-    const url = `https://psalm.dev/r/${snippetId}`;
+    const url = `https://psalm.dev/r/${snippetId}`
+
+    const obs = new PerformanceObserver(list => {
+      list.getEntries().forEach(entry => this.log.info('%s: %dms', entry.name, entry.duration))
+    })
+
+    obs.observe({entryTypes: ['measure'], buffered: true})
+
+    performance.mark('start resolving')
 
     const text = await fetch(`${url}/raw`)
       .then(async(response) => await response.text());
 
+    performance.mark('snippet received')
+
     const results = await fetch(`${url}/results`)
       .then(async(response) => await response.json());
 
-    if (results.error !== undefined) {
-      return {
-        link: url,
-        text: text,
-        results: null,
-        internalError: results.error
-      };
-    }
+    performance.mark('results received')
+
+    performance.measure(`Fetching snippet ${snippetId}`, 'start resolving', 'snippet received')
+    performance.measure(`Fetching results for ${snippetId}`, 'snippet received', 'results received')
+    performance.measure(`Total for ${snippetId}`, 'start resolving', 'results received')
+
+    performance.clearMarks()
+    obs.disconnect()
 
     return {
       link: url,
       text: text,
-      results: results,
-      internalError: null
-    };
+      results: results.error === undefined ? results : null,
+      internalError: results.error === undefined ? null : results.error
+    }
   }
 }
 
