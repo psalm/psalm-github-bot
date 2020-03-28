@@ -13,6 +13,7 @@ export class SnippetResolver {
     const url = `https://psalm.dev/r/${snippetId}`
 
     const obs = new PerformanceObserver(list => {
+      this.log.debug('Logging the performance marks: %s', JSON.stringify(list))
       list.getEntries().forEach(entry => this.log.info('%s: %dms', entry.name, entry.duration))
     })
 
