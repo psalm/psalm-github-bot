@@ -1,43 +1,56 @@
-import Logger from 'bunyan'
-import fetch from 'node-fetch'
-import {performance, PerformanceObserver} from 'perf_hooks'
+import Logger from 'bunyan';
+import fetch from 'node-fetch';
+import {performance, PerformanceObserver} from 'perf_hooks';
+import util from 'util';
 
 export class SnippetResolver {
   log: Logger;
+  obs: PerformanceObserver;
 
   constructor(log: Logger) {
     this.log = log;
+    this.obs = new PerformanceObserver(list => {
+      this.log.debug('Logging the performance marks: %s', JSON.stringify(list))
+      list.getEntries().forEach(entry => this.log.info('%s: %dms', entry.name, entry.duration))
+    })
+    this.obs.observe({entryTypes: ['measure'], buffered: true})
   }
 
   async resolve(snippetId: string): Promise<ResolvedSnippet> {
     this.log.debug('Resolving snippet: %s', snippetId)
     const url = `https://psalm.dev/r/${snippetId}`
 
-    const obs = new PerformanceObserver(list => {
-      this.log.debug('Logging the performance marks: %s', JSON.stringify(list))
-      list.getEntries().forEach(entry => this.log.info('%s: %dms', entry.name, entry.duration))
-    })
+    const startMark = util.format('start resolving %s', snippetId)
+    const snippetReceivedMark = util.format('snippet received %s', snippetId)
+    const resultsReceivedMark = util.format('results received %s', snippetId)
 
-    obs.observe({entryTypes: ['measure'], buffered: true})
-
-    performance.mark('start resolving')
+    performance.mark(startMark)
 
     const text = await fetch(`${url}/raw`)
       .then(async(response) => await response.text());
 
-    performance.mark('snippet received')
+    performance.mark(snippetReceivedMark)
 
     const results = await fetch(`${url}/results`)
       .then(async(response) => await response.json());
 
-    performance.mark('results received')
+    performance.mark(resultsReceivedMark)
 
-    performance.measure(`Fetching snippet ${snippetId}`, 'start resolving', 'snippet received')
-    performance.measure(`Fetching results for ${snippetId}`, 'snippet received', 'results received')
-    performance.measure(`Total for ${snippetId}`, 'start resolving', 'results received')
-
-    performance.clearMarks()
-    obs.disconnect()
+    performance.measure(
+      util.format('Fetching snippet %s', snippetId),
+      startMark,
+      snippetReceivedMark
+    )
+    performance.measure(
+      util.format('Fetching results for %s', snippetId),
+      snippetReceivedMark,
+      resultsReceivedMark
+    )
+    performance.measure(
+      util.format('Total for %s', snippetId),
+      startMark,
+      resultsReceivedMark
+    )
 
     return {
       link: url,
