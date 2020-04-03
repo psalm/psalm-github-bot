@@ -33,7 +33,7 @@ export = (app: Application) => {
 
         responses.set(issue.id, result.data.id)
       } else {
-        const links = issue.body.match(/psalm\.dev/g);
+        const links = issue.body.match(/psalm\.dev/g)
         const validLinks = links?.filter(
           link => !/psalm\.dev\/\d{3}/.test(link)
         )
