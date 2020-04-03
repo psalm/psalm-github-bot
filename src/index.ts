@@ -32,13 +32,19 @@ export = (app: Application) => {
         const result = await context.github.issues.createComment(issueComment)
 
         responses.set(issue.id, result.data.id)
-      } else if (!/psalm\.dev/.test(issue.body)) {
-        const issueComment = context.issue({
-          body: responder.greet(issue.user.login)
-        })
-        await delay(1000)
-        const result = await context.github.issues.createComment(issueComment)
-        responses.set(issue.id, result.data.id)
+      } else {
+        const links = issue.body.match(/psalm\.dev/g)?.filter(
+          link => !/psalm\.dev\/\d{3}/.test(link)
+        )
+
+        if (!links || !links.length) {
+          const issueComment = context.issue({
+            body: responder.greet(issue.user.login)
+          })
+          await delay(1000)
+          const result = await context.github.issues.createComment(issueComment)
+          responses.set(issue.id, result.data.id)
+        }
       }
     }
   })
