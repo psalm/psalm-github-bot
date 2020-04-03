@@ -33,11 +33,14 @@ export = (app: Application) => {
 
         responses.set(issue.id, result.data.id)
       } else {
-        const links = issue.body.match(/psalm\.dev/g)?.filter(
+        const links = issue.body.match(/psalm\.dev/g);
+        const validLinks = links?.filter(
           link => !/psalm\.dev\/\d{3}/.test(link)
         )
+        app.log.debug(links)
+        app.log.debug(validLinks)
 
-        if (!links || !links.length) {
+        if (!validLinks || !validLinks.length) {
           const issueComment = context.issue({
             body: responder.greet(issue.user.login)
           })
