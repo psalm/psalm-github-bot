@@ -5,7 +5,28 @@ export class Responder {
   greet(login: string) {
     return `Hey @${login}, can you reproduce the issue on https://psalm.dev ?`
   }
-  
+
+  shouldGreet(issue: string) {
+    const links = issue.match(/psalm\.dev(\/\w*)?/g)
+    if (!links) {
+      return true
+    }
+
+    const validLinks = links.filter(
+      link => !/psalm\.dev\/\d/.test(link)
+    )
+
+    if (null === validLinks) {
+      return true
+    }
+
+    if (!validLinks.length) {
+      return true
+    }
+
+    return false;
+  }
+
   snippetResponse(resolvedSnippets: ResolvedSnippet[]): string {
     const snippets = resolvedSnippets.map(this.formatSnippet.bind(this)).join('\n')
 

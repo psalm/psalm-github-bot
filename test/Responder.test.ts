@@ -59,14 +59,35 @@ describe('Responder', () => {
     done()
   })
 
-  test('Greets', () => {
-    expect(responder.greet('aUser'))
-      .toEqual('Hey @aUser, can you reproduce the issue on https://psalm.dev ?')
+  describe('Actual greeting', () => {
+    test('Greeting text', () => {
+      expect(responder.greet('aUser'))
+        .toEqual('Hey @aUser, can you reproduce the issue on https://psalm.dev ?')
+    })
   })
 
-  test('Responds to single snippet with no issues', () => {
-    expect(responder.snippetResponse([noIssuesSnippet]))
-      .toEqual(`I found these snippets:
+  describe('Greeting conditions', () => {
+    test('Should greet when no links are provided', () => {
+      expect(responder.shouldGreet('no links here')).toBe(true)
+    })
+
+    test('Should greet when issue shortcode is provided', () => {
+      expect(responder.shouldGreet("I've got psalm.dev/053, ain't I'm lucky?")).toBe(true)
+    })
+
+    test('Should not greet when some other link to psalm.dev is provided', () => {
+      expect(responder.shouldGreet("I can't reproduce on psalm.dev")).toBe(false)
+    })
+
+    test('Should not greet when non-issue and issue links are provided', () => {
+      expect(responder.shouldGreet("I've got psalm.dev/053, but psalm.dev is wrong")).toBe(false)
+    })
+  })
+
+  describe('Snippet responses', () => {
+    test('Responds to single snippet with no issues', () => {
+      expect(responder.snippetResponse([noIssuesSnippet]))
+        .toEqual(`I found these snippets:
 <details>
 <summary>https://psalm.dev/whatever</summary>
 
@@ -81,11 +102,11 @@ No issues!
 \`\`\`
 </details>
 `)
-  })
+    })
 
-  test('Responds to multiple snippets with no issues', () => {
-    expect(responder.snippetResponse([noIssuesSnippet, noIssuesSnippet]))
-      .toEqual(`I found these snippets:
+    test('Responds to multiple snippets with no issues', () => {
+      expect(responder.snippetResponse([noIssuesSnippet, noIssuesSnippet]))
+        .toEqual(`I found these snippets:
 <details>
 <summary>https://psalm.dev/whatever</summary>
 
@@ -114,11 +135,11 @@ No issues!
 \`\`\`
 </details>
 `)
-  })
+    })
 
-  test('Responds to single snippet with issues', () => {
-    expect(responder.snippetResponse([issuesSnippet]))
-      .toEqual(`I found these snippets:
+    test('Responds to single snippet with issues', () => {
+      expect(responder.snippetResponse([issuesSnippet]))
+        .toEqual(`I found these snippets:
 <details>
 <summary>https://psalm.dev/whatever</summary>
 
@@ -133,11 +154,11 @@ ERROR: CircularDependency - 1:1 - Deps go in circles
 \`\`\`
 </details>
 `)
-  })
+    })
 
-  test('Responds to single snippet with internal error', () => {
-    expect(responder.snippetResponse([erroredSnippet]))
-      .toEqual(`I found these snippets:
+    test('Responds to single snippet with internal error', () => {
+      expect(responder.snippetResponse([erroredSnippet]))
+        .toEqual(`I found these snippets:
 <details>
 <summary>https://psalm.dev/whatever</summary>
 
@@ -152,5 +173,6 @@ Internal error is internal
 \`\`\`
 </details>
 `)
+    })
   })
 })
