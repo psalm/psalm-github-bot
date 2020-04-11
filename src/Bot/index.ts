@@ -20,7 +20,6 @@ export class Bot {
   }
 
   async onIssueOpened(context:Context<Webhooks.WebhookPayloadIssues>) {
-    console.log(this)
     const responded = await this.respond(context)
     if (false === responded) {
       await this.greet(context)
