@@ -4,6 +4,7 @@ import { SnippetResolver } from './SnippetResolver'
 import { Responder } from './Responder'
 
 export = (app: Application) => {
+
   const parser = new CommentParser()
   const resolver = new SnippetResolver(app.log)
   const responder: Responder = new Responder()
