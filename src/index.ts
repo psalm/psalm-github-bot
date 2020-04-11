@@ -4,11 +4,11 @@ import { BotFactory } from './Bot'
 export = (app: Application) => {
   const bot = BotFactory.make(app)
 
-  app.on('issues.opened', bot.onIssueOpened)
-  app.on('issue_comment.created', bot.onIssueCommentCreated)
-  app.on('issues.edited', bot.onIssueEdited)
-  app.on('issue_comment.edited', bot.onIssueCommentEdited)
-  app.on('issue_comment.deleted', bot.onIssueCommentDeleted)
-  app.on('pull_request.opened', bot.onPullRequestOpened)
-  app.on('pull_request.edited', bot.onPullRequestEdited)
+  app.on('issues.opened', bot.onIssueOpened.bind(bot))
+  app.on('issue_comment.created', bot.onIssueCommentCreated.bind(bot))
+  app.on('issues.edited', bot.onIssueEdited.bind(bot))
+  app.on('issue_comment.edited', bot.onIssueCommentEdited.bind(bot))
+  app.on('issue_comment.deleted', bot.onIssueCommentDeleted.bind(bot))
+  app.on('pull_request.opened', bot.onPullRequestOpened.bind(bot))
+  app.on('pull_request.edited', bot.onPullRequestEdited.bind(bot))
 }
