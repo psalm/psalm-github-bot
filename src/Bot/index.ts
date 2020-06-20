@@ -53,7 +53,7 @@ export class Bot {
 
   private async greet(context: Context<Webhooks.WebhookPayloadIssues>) {
     const issue = context.payload.issue
-    if (this.responder.shouldGreet(issue.body)) {
+    if (this.responder.shouldGreet(issue.body, context.payload.repository.full_name)) {
       const issueComment = context.issue({
         body: this.responder.greet(issue.user.login)
       })

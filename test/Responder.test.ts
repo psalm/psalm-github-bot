@@ -67,20 +67,28 @@ describe('Responder', () => {
   })
 
   describe('Greeting conditions', () => {
+    test('Should greet on allowed repo', () => {
+      expect(responder.shouldGreet('no links here', 'weirdan/psalm-github-bot')).toBe(true)
+    })
+
+    test('Should not greet on a not allowed repo', () => {
+      expect(responder.shouldGreet('no links here', 'weirdan/doctrine-psalm-plugin')).toBe(false)
+    })
+
     test('Should greet when no links are provided', () => {
-      expect(responder.shouldGreet('no links here')).toBe(true)
+      expect(responder.shouldGreet('no links here', 'weirdan/psalm-github-bot')).toBe(true)
     })
 
     test('Should greet when issue shortcode is provided', () => {
-      expect(responder.shouldGreet("I've got psalm.dev/053, ain't I'm lucky?")).toBe(true)
+      expect(responder.shouldGreet("I've got psalm.dev/053, ain't I'm lucky?", 'weirdan/psalm-github-bot')).toBe(true)
     })
 
     test('Should not greet when some other link to psalm.dev is provided', () => {
-      expect(responder.shouldGreet("I can't reproduce on psalm.dev")).toBe(false)
+      expect(responder.shouldGreet("I can't reproduce on psalm.dev", 'weirdan/psalm-github-bot')).toBe(false)
     })
 
     test('Should not greet when non-issue and issue links are provided', () => {
-      expect(responder.shouldGreet("I've got psalm.dev/053, but psalm.dev is wrong")).toBe(false)
+      expect(responder.shouldGreet("I've got psalm.dev/053, but psalm.dev is wrong", 'weirdan/psalm-github-bot')).toBe(false)
     })
   })
 

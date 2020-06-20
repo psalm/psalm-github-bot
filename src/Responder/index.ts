@@ -6,7 +6,16 @@ export class Responder {
     return `Hey @${login}, can you reproduce the issue on https://psalm.dev ?`
   }
 
-  shouldGreet(issue: string) {
+  shouldGreet(issue: string, repoName: string) {
+    const allowedRepos = [
+      'vimeo/psalm',
+      'weirdan/psalm-github-bot'
+    ];
+
+    if (!allowedRepos.includes(repoName)) {
+      return false;
+    }
+
     const links = issue.match(/psalm\.dev(\/\w*)?/g)
     if (!links) {
       return true
