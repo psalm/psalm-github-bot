@@ -27,12 +27,18 @@ export class SnippetResolver {
     performance.mark(startMark)
 
     const text = await fetch(`${url}/raw`)
-      .then(async(response) => await response.text());
+      .then(async(response) => await response.text())
 
     performance.mark(snippetReceivedMark)
 
-    const results = await fetch(`${url}/results`)
-      .then(async(response) => await response.json());
+    const response = await fetch(`${url}/results`)
+    let results = { error: { message: 'Bot failed to fetch results' } } as any
+    const body = await response.text()
+    try {
+      results = JSON.parse(body)
+    } catch (ex) {
+      results = { error: { message: 'Failed to parse results: ' + body } } as any;
+    }
 
     performance.mark(resultsReceivedMark)
 

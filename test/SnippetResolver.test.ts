@@ -117,4 +117,25 @@ describe('SnippetResolver', () => {
       }
     })
   })
+
+  test('returns failure message when Psalm crashes with a fatal error', async () => {
+    nock('https://psalm.dev')
+      .get('/r/whateverfail/raw')
+      .reply(200, '<?php whatever();')
+
+    const fatalError = `<br />
+<b>Fatal error</b>:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 134218352 bytes) in <b>/var/www/vhosts/psalm.dev/httpdocs/vendor/vimeo/psalm/src/Psalm/Internal/Analyzer/Statements/Expression/AssertionFinder.php</b> on line <b>144</b><br />`
+
+    nock('https://psalm.dev')
+      .get('/r/whateverfail/results')
+      .reply(200, fatalError)
+
+    const resolved = await resolver.resolve('whateverfail')
+    expect(resolved).toMatchObject({
+      results: null,
+      internalError: {
+        message: `Failed to parse results: ${fatalError}`
+      }
+    })
+  })
 })
