@@ -128,13 +128,31 @@ describe('SnippetResolver', () => {
 
     nock('https://psalm.dev')
       .get('/r/whateverfail/results')
-      .reply(200, fatalError)
+      .reply(200, fatalError, { 'content-type': 'text/html; charset=UTF-8' })
 
     const resolved = await resolver.resolve('whateverfail')
     expect(resolved).toMatchObject({
       results: null,
       internalError: {
         message: `Failed to parse results: ${fatalError}`
+      }
+    })
+  })
+
+  test('returns failure message when Psalm returns no results', async () => {
+    nock('https://psalm.dev')
+      .get('/r/whateverfail/raw')
+      .reply(200, '<?php whatever();')
+
+    nock('https://psalm.dev')
+      .get('/r/whateverfail/results')
+      .reply(500, '')
+
+    const resolved = await resolver.resolve('whateverfail')
+    expect(resolved).toMatchObject({
+      results: null,
+      internalError: {
+        message: 'Failed to parse results: (received no output)'
       }
     })
   })
