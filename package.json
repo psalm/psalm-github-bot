@@ -23,7 +23,7 @@
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
-    "probot": "^9.11.5"
+    "probot": "^9.11.7"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.6",
