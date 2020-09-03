@@ -1,4 +1,4 @@
-import Webhooks from '@octokit/webhooks';
+import {EventPayloads} from '@octokit/webhooks';
 import {Context, Application} from "probot";
 import {CommentParser, LinkEntry} from '../CommentParser';
 import {Responder} from "../Responder";
@@ -19,39 +19,39 @@ export class Bot {
     this.responses = new Map()
   }
 
-  async onIssueOpened(context:Context<Webhooks.WebhookPayloadIssues>) {
+  async onIssueOpened(context:Context<EventPayloads.WebhookPayloadIssues>) {
     const responded = await this.respond(context)
     if (false === responded) {
       await this.greet(context)
     }
   }
 
-  async onIssueCommentCreated(context: Context<Webhooks.WebhookPayloadIssueComment>) {
+  async onIssueCommentCreated(context: Context<EventPayloads.WebhookPayloadIssueComment>) {
     await this.respond(context)
   }
 
-  async onIssueEdited(context: Context<Webhooks.WebhookPayloadIssues>) {
+  async onIssueEdited(context: Context<EventPayloads.WebhookPayloadIssues>) {
     await this.updateResponse(context)
   }
 
-  async onIssueCommentEdited(context: Context<Webhooks.WebhookPayloadIssueComment>) {
+  async onIssueCommentEdited(context: Context<EventPayloads.WebhookPayloadIssueComment>) {
     await this.updateResponse(context)
   }
 
-  async onIssueCommentDeleted(context: Context<Webhooks.WebhookPayloadIssueComment>) {
+  async onIssueCommentDeleted(context: Context<EventPayloads.WebhookPayloadIssueComment>) {
     await this.deleteResponse(context);
   }
 
-  async onPullRequestOpened(context: Context<Webhooks.WebhookPayloadPullRequest>) {
+  async onPullRequestOpened(context: Context<EventPayloads.WebhookPayloadPullRequest>) {
     await this.respond(context)
   }
 
-  async onPullRequestEdited(context: Context<Webhooks.WebhookPayloadPullRequest>) {
+  async onPullRequestEdited(context: Context<EventPayloads.WebhookPayloadPullRequest>) {
     await this.updateResponse(context)
   }
 
 
-  private async greet(context: Context<Webhooks.WebhookPayloadIssues>) {
+  private async greet(context: Context<EventPayloads.WebhookPayloadIssues>) {
     const issue = context.payload.issue
     if (this.responder.shouldGreet(issue.body, context.payload.repository.full_name)) {
       const issueComment = context.issue({
@@ -63,7 +63,7 @@ export class Bot {
     }
   }
 
-  private async respond(context: Context<Webhooks.WebhookPayloadIssues>|Context<Webhooks.WebhookPayloadIssueComment>|Context<Webhooks.WebhookPayloadPullRequest>): Promise<boolean | null> {
+  private async respond(context: Context<EventPayloads.WebhookPayloadIssues>|Context<EventPayloads.WebhookPayloadIssueComment>|Context<EventPayloads.WebhookPayloadPullRequest>): Promise<boolean | null> {
     if (context.isBot) {
       return null
     }
@@ -91,7 +91,7 @@ export class Bot {
   }
 
 
-  private async updateResponse(context: Context<Webhooks.WebhookPayloadIssues>|Context<Webhooks.WebhookPayloadIssueComment>|Context<Webhooks.WebhookPayloadPullRequest>) {
+  private async updateResponse(context: Context<EventPayloads.WebhookPayloadIssues>|Context<EventPayloads.WebhookPayloadIssueComment>|Context<EventPayloads.WebhookPayloadPullRequest>) {
     let respondingTo;
     if ('comment' in context.payload) {
       respondingTo = context.payload.comment
@@ -121,7 +121,7 @@ export class Bot {
   }
 
 
-  private async deleteResponse(context: Context<Webhooks.WebhookPayloadIssueComment>) {
+  private async deleteResponse(context: Context<EventPayloads.WebhookPayloadIssueComment>) {
     const comment = context.payload.comment;
     if (this.responses.has(comment.id)) {
       const existingResponseId = this.responses.get(comment.id) as number;
