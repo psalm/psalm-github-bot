@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.9",
-    "@types/jest": "^26.0.15",
+    "@types/jest": "^26.0.19",
     "@types/nock": "^11.1.0",
     "@types/node": "^14.14.10",
     "@types/node-fetch": "^2.5.7",
