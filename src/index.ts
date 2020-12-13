@@ -1,7 +1,7 @@
-import { Application } from 'probot' // eslint-disable-line no-unused-vars
+import { Probot } from 'probot' // eslint-disable-line no-unused-vars
 import { BotFactory } from './Bot'
 
-export = (app: Application) => {
+export = ({ app }: {app: Probot}) => {
   const bot = BotFactory.make(app)
 
   app.on('issues.opened', bot.onIssueOpened.bind(bot))
