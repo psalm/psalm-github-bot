@@ -1,5 +1,5 @@
 import {EventPayloads} from '@octokit/webhooks';
-import {Context, Application} from "probot";
+import {Context, Probot} from "probot";
 import {CommentParser, LinkEntry} from '../CommentParser';
 import {Responder} from "../Responder";
 import {SnippetResolver} from "../SnippetResolver";
@@ -58,7 +58,7 @@ export class Bot {
         body: this.responder.greet(issue.user.login)
       })
       await delay(1000)
-      const result = await context.github.issues.createComment(issueComment)
+      const result = await context.octokit.issues.createComment(issueComment)
       this.responses.set(issue.id, result.data.id)
     }
   }
@@ -83,7 +83,7 @@ export class Bot {
         body: await this.makeResponse(links)
       })
       await delay(1000)
-      const result = await context.github.issues.createComment(issueComment)
+      const result = await context.octokit.issues.createComment(issueComment)
 
       this.responses.set(respondingTo.id, result.data.id)
     }
@@ -110,9 +110,9 @@ export class Bot {
           comment_id: existingResponseId,
           body: await this.makeResponse(links)
         })
-        await context.github.issues.updateComment(issueComment)
+        await context.octokit.issues.updateComment(issueComment)
       } else {
-        await context.github.issues.deleteComment(context.issue({
+        await context.octokit.issues.deleteComment(context.issue({
           comment_id: existingResponseId
         }))
         this.responses.delete(respondingTo.id)
@@ -125,7 +125,7 @@ export class Bot {
     const comment = context.payload.comment;
     if (this.responses.has(comment.id)) {
       const existingResponseId = this.responses.get(comment.id) as number;
-      await context.github.issues.deleteComment(context.issue({
+      await context.octokit.issues.deleteComment(context.issue({
         comment_id: existingResponseId
       }));
       this.responses.delete(comment.id);
@@ -141,7 +141,7 @@ export class Bot {
 }
 
 export class BotFactory {
-  static make(app: Application): Bot {
+  static make(app: Probot): Bot {
     return new Bot(
       new CommentParser(),
       new SnippetResolver(app.log),
