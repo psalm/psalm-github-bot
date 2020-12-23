@@ -1,0 +1,12 @@
+name: Deploy to Heroku
+on: 
+  - release
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          git checkout heroku
+          git reset --hard ${{ github.sha }}
+          git push --force
