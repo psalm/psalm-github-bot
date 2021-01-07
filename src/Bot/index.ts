@@ -134,7 +134,7 @@ export class Bot {
 
   private async makeResponse(links: LinkEntry[]): Promise<string> {
     const resolvedSnippets = await Promise.all(
-      links.map(entry => this.resolver.resolve(entry.snippet))
+      links.map(entry => this.resolver.resolve(entry))
     )
     return this.responder.snippetResponse(resolvedSnippets)
   }
