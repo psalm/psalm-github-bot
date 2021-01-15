@@ -2,6 +2,7 @@ import type {Logger} from 'pino';
 import fetch from 'node-fetch';
 import {performance, PerformanceObserver} from 'perf_hooks';
 import util from 'util';
+import {LinkEntry} from '../CommentParser';
 
 export class SnippetResolver {
   log: Logger;
@@ -16,13 +17,13 @@ export class SnippetResolver {
     this.obs.observe({entryTypes: ['measure'], buffered: true})
   }
 
-  async resolve(snippetId: string): Promise<ResolvedSnippet> {
-    this.log.debug('Resolving snippet: %s', snippetId)
-    const url = `https://psalm.dev/r/${snippetId}`
+  async resolve(link: LinkEntry): Promise<ResolvedSnippet> {
+    this.log.debug('Resolving snippet: %s', link.snippet)
+    const url = `https://psalm.dev/r/${link.snippet}`;
 
-    const startMark = util.format('start resolving %s', snippetId)
-    const snippetReceivedMark = util.format('snippet received %s', snippetId)
-    const resultsReceivedMark = util.format('results received %s', snippetId)
+    const startMark = util.format('start resolving %s', link.snippet)
+    const snippetReceivedMark = util.format('snippet received %s', link.snippet)
+    const resultsReceivedMark = util.format('results received %s', link.snippet)
 
     performance.mark(startMark)
 
@@ -31,7 +32,7 @@ export class SnippetResolver {
 
     performance.mark(snippetReceivedMark)
 
-    const response = await fetch(`${url}/results`)
+    const response = await fetch(`${url}/results` + (link.params.length ? ('?' + link.params) : ''))
     let results = { error: { message: 'Bot failed to fetch results' } } as any
     const body = await response.text()
     if (body.length) {
@@ -47,17 +48,17 @@ export class SnippetResolver {
     performance.mark(resultsReceivedMark)
 
     performance.measure(
-      util.format('Fetching snippet %s', snippetId),
+      util.format('Fetching snippet %s', link.snippet),
       startMark,
       snippetReceivedMark
     )
     performance.measure(
-      util.format('Fetching results for %s', snippetId),
+      util.format('Fetching results for %s', link.snippet),
       snippetReceivedMark,
       resultsReceivedMark
     )
     performance.measure(
-      util.format('Total for %s', snippetId),
+      util.format('Total for %s', link.snippet),
       startMark,
       resultsReceivedMark
     )

@@ -23,7 +23,11 @@ describe('SnippetResolver', () => {
       .get('/r/whatever/results')
       .reply(200, {})
 
-    await resolver.resolve('whatever')
+    await resolver.resolve({
+      link: 'https://psalm.dev/r/whatever',
+      snippet: 'whatever',
+      params: ''
+    })
     expect(expectedRequest.isDone()).toBeTruthy()
   })
 
@@ -41,7 +45,11 @@ describe('SnippetResolver', () => {
         hash: '37a9c929671770c6aba45e9af8072f19'
       })
 
-    await resolver.resolve('whatever')
+    await resolver.resolve({
+      link: 'https://psalm.dev/r/whatever',
+      snippet: 'whatever',
+      params: ''
+    })
     expect(expectedRequest.isDone()).toBeTruthy()
   })
 
@@ -59,7 +67,11 @@ describe('SnippetResolver', () => {
         hash: '37a9c929671770c6aba45e9af8072f19'
       })
 
-    const resolved = await resolver.resolve('whatever')
+    const resolved = await resolver.resolve({
+      link: 'https://psalm.dev/r/whatever',
+      snippet: 'whatever',
+      params: ''
+    })
 
     expect(resolved).toMatchObject({ text: '<?php whatever();' })
   })
@@ -78,7 +90,11 @@ describe('SnippetResolver', () => {
         hash: '37a9c929671770c6aba45e9af8072f19'
       })
 
-    const resolved = await resolver.resolve('whatever')
+    const resolved = await resolver.resolve({
+      link: 'https://psalm.dev/r/whatever',
+      snippet: 'whatever',
+      params: ''
+    })
     expect(resolved).toMatchObject({
       results: {
         results: [],
@@ -105,7 +121,11 @@ describe('SnippetResolver', () => {
         }
       })
 
-    const resolved = await resolver.resolve('whateverfail')
+    const resolved = await resolver.resolve({
+      link: 'https://psalm.dev/r/whateverfail',
+      snippet: 'whateverfail',
+      params: ''
+    })
     expect(resolved).toMatchObject({
       results: null,
       internalError: {
@@ -126,7 +146,11 @@ describe('SnippetResolver', () => {
       .get('/r/whateverfail/results')
       .reply(200, fatalError, { 'content-type': 'text/html; charset=UTF-8' })
 
-    const resolved = await resolver.resolve('whateverfail')
+    const resolved = await resolver.resolve({
+      link: 'https://psalm.dev/r/whateverfail',
+      snippet: 'whateverfail',
+      params: ''
+    })
     expect(resolved).toMatchObject({
       results: null,
       internalError: {
@@ -144,12 +168,34 @@ describe('SnippetResolver', () => {
       .get('/r/whateverfail/results')
       .reply(500, '')
 
-    const resolved = await resolver.resolve('whateverfail')
+    const resolved = await resolver.resolve({
+      link: 'https://psalm.dev/r/whateverfail',
+      snippet: 'whateverfail',
+      params: ''
+    })
     expect(resolved).toMatchObject({
       results: null,
       internalError: {
         message: 'Failed to parse results: (received no output)'
       }
     })
+  })
+
+  test('result includes query string', async () => {
+    nock('https://psalm.dev')
+      .get('/r/whatever/raw')
+      .reply(200, '<?php whatever();')
+
+    const expectedRequest = nock('https://psalm.dev')
+      .get('/r/whatever/results?php=7.3')
+      .reply(200, {})
+
+    await resolver.resolve({
+      link: 'https://psalm.dev/r/whatever?php=7.3',
+      snippet: 'whatever',
+      params: 'php=7.3'
+    })
+
+    expect(expectedRequest.isDone()).toBeTruthy()
   })
 })

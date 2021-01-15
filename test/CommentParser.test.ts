@@ -49,4 +49,16 @@ describe('CommentParser', () => {
       { link: 'https://psalm.dev/r/0f9f06ebd6', snippet: '0f9f06ebd6' }
     ])
   })
+
+  test('returns links with query params', () => {
+    expect(
+      parser.parseComment('see psalm.dev/r/92da00ab3c?php=7.3 - it should be resolved')
+    ).toEqual([
+      {
+        link: 'https://psalm.dev/r/92da00ab3c?php=7.3',
+        snippet: '92da00ab3c',
+        params: 'php=7.3'
+      }
+    ])
+  })
 })

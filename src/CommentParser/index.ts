@@ -2,21 +2,22 @@ export class CommentParser {
   parseComment(comment: string): LinkEntry[] {
     let matches;
     let snippets = [];
-    const regexp = /psalm\.dev\/r\/(\w+)/g;
+    const regexp = /psalm\.dev\/r\/(\w+)(\?([^\s]+))?/g;
 
     const seen: Set<string> = new Set;
 
     while ((matches = regexp.exec(comment)) !== null) {
-      if (seen.has(matches[1])) {
+      if (seen.has(matches[0])) {
         continue;
       }
 
       snippets.push({
         link: 'https://' + matches[0], 
-        snippet: matches[1]
+        snippet: matches[1],
+        params: matches[3]
       });
 
-      seen.add(matches[1]);
+      seen.add(matches[0]);
     }
 
     return snippets;
@@ -26,4 +27,5 @@ export class CommentParser {
 export interface LinkEntry {
   link: string;
   snippet: string;
+  params: string;
 }
