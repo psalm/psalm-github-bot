@@ -14,7 +14,7 @@ export class CommentParser {
       snippets.push({
         link: 'https://' + matches[0], 
         snippet: matches[1],
-        params: matches[3]
+        params: matches[3] || ''
       });
 
       seen.add(matches[0]);

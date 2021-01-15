@@ -14,18 +14,17 @@ describe('CommentParser', () => {
   test('returns a link when there is one', () => {
     expect(
       parser.parseComment('One link: https://psalm.dev/r/0f9f06ebd6')
-    )
-      .toEqual([
-        { link: 'https://psalm.dev/r/0f9f06ebd6', snippet: '0f9f06ebd6' }
-      ])
+    ).toEqual([
+      { link: 'https://psalm.dev/r/0f9f06ebd6', snippet: '0f9f06ebd6', params: '' }
+    ])
   })
 
   test('returns all links when there are many', () => {
     expect(
       parser.parseComment('psalm.dev/r/0f9f06ebd6 and psalm.dev/r/whatever are not the same')
     ).toEqual([
-      { link: 'https://psalm.dev/r/0f9f06ebd6', snippet: '0f9f06ebd6' },
-      { link: 'https://psalm.dev/r/whatever', snippet: 'whatever' }
+      { link: 'https://psalm.dev/r/0f9f06ebd6', snippet: '0f9f06ebd6', params: '' },
+      { link: 'https://psalm.dev/r/whatever', snippet: 'whatever', params: '' }
     ])
   })
 
@@ -37,8 +36,8 @@ describe('CommentParser', () => {
     expect(
       parser.parseComment(comment)
     ).toEqual([
-      { link: 'https://psalm.dev/r/0f9f06ebd6', snippet: '0f9f06ebd6' },
-      { link: 'https://psalm.dev/r/whatever', snippet: 'whatever' }
+      { link: 'https://psalm.dev/r/0f9f06ebd6', snippet: '0f9f06ebd6', params: '' },
+      { link: 'https://psalm.dev/r/whatever', snippet: 'whatever', params: '' }
     ])
   })
 
@@ -46,7 +45,7 @@ describe('CommentParser', () => {
     expect(
       parser.parseComment('https://psalm.dev/r/0f9f06ebd6 and https://psalm.dev/r/0f9f06ebd6 are the same link')
     ).toEqual([
-      { link: 'https://psalm.dev/r/0f9f06ebd6', snippet: '0f9f06ebd6' }
+      { link: 'https://psalm.dev/r/0f9f06ebd6', snippet: '0f9f06ebd6', params: '' }
     ])
   })
 
@@ -60,5 +59,11 @@ describe('CommentParser', () => {
         params: 'php=7.3'
       }
     ])
+  })
+
+  test('returns empty string as params for links without params', () => {
+    expect(
+      parser.parseComment('One link: https://psalm.dev/r/0f9f06ebd6')[0].params
+    ).toEqual('')
   })
 })
