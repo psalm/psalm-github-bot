@@ -14,7 +14,7 @@ export class SnippetResolver {
       this.log.debug('Logging the performance marks: %s', JSON.stringify(list))
       list.getEntries().forEach(entry => this.log.info('%s: %dms', entry.name, entry.duration))
     })
-    this.obs.observe({entryTypes: ['measure'], buffered: true})
+    this.obs.observe({entryTypes: ['measure']})
   }
 
   async resolve(link: LinkEntry): Promise<ResolvedSnippet> {
