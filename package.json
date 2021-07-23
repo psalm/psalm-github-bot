@@ -30,7 +30,7 @@
     "@types/jest": "^26.0.24",
     "@types/nock": "^11.1.0",
     "@types/node": "^16.4.1",
-    "@types/node-fetch": "^2.5.11",
+    "@types/node-fetch": "^2.5.12",
     "@typescript-eslint/parser": "^4.28.4",
     "eslint-plugin-typescript": "^0.14.0",
     "jest": "^27.0.6",
