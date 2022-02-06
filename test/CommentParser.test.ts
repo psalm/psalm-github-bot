@@ -66,4 +66,33 @@ describe('CommentParser', () => {
       parser.parseComment('One link: https://psalm.dev/r/0f9f06ebd6')[0].params
     ).toEqual('')
   })
+
+  test('does not include closing paren in params', () => {
+    expect(
+      parser.parseComment('(psalm.dev/r/265ca1743a?php=7.4)')
+    ).toEqual([
+      {
+        link: 'https://psalm.dev/r/265ca1743a?php=7.4',
+        snippet: '265ca1743a',
+        params: 'php=7.4'
+      }
+    ])
+  })
+
+  test('does not include trailing comma or period in params', () => {
+    expect(
+      parser.parseComment('psalm.dev/r/265ca1743a?php=7.4, psalm.dev/r/265ca1743b?php=7.4.')
+    ).toEqual([
+      {
+        link: 'https://psalm.dev/r/265ca1743a?php=7.4',
+        snippet: '265ca1743a',
+        params: 'php=7.4'
+      },
+      {
+        link: 'https://psalm.dev/r/265ca1743b?php=7.4',
+        snippet: '265ca1743b',
+        params: 'php=7.4'
+      }
+    ])
+  })
 })
