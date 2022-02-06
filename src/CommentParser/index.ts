@@ -2,7 +2,7 @@ export class CommentParser {
   parseComment(comment: string): LinkEntry[] {
     let matches;
     let snippets = [];
-    const regexp = /psalm\.dev\/r\/(\w+)(\?([^\s]+))?/g;
+    const regexp = /psalm\.dev\/r\/(\w+)(\?(php=\d+\.\d+))?/g;
 
     const seen: Set<string> = new Set;
 
