@@ -34,7 +34,7 @@
     "@typescript-eslint/parser": "^5.30.7",
     "eslint-plugin-typescript": "^0.14.0",
     "jest": "^27.5.1",
-    "nock": "^13.2.8",
+    "nock": "^13.2.9",
     "nodemon": "^2.0.19",
     "smee-client": "^1.2.3",
     "standard": "^17.0.0",
