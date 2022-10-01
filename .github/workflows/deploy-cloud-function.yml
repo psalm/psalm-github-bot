@@ -1,0 +1,46 @@
+name: Deploy Google Cloud function
+on:
+  push:
+    branches:
+      - release/google-cloud-functions
+  workflow_dispatch:
+
+env:
+  GCP_PROJECT_NUMBER: 721298773786
+  GCP_PROJECT_ID: psalm-github-bot
+  GCP_FUNCTION_NAME: psalm-github-bot
+  GCP_IDENTITY_POOL: github
+  GCP_IDENTITY_PROVIDER: github
+  GCP_SERVICE_ACCOUNT: github-deployer@psalm-github-bot.iam.gserviceaccount.com
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout built code
+        uses: actions/checkout@v3
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
+
+      - id: auth
+        uses: google-github-actions/auth@v0
+        with:
+          workload_identity_provider: "projects/${{ env.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ env.GCP_IDENTITY_POOL }}/providers/${{ env.GCP_IDENTITY_PROVIDER }}"
+          service_account: "${{ env.GCP_SERVICE_ACCOUNT }}"
+
+      - run: |
+          gcloud functions deploy ${{ env.GCP_FUNCTION_NAME }} \
+            --project=${{ env.GCP_PROJECT_ID }} \
+            --allow-unauthenticated \
+            --trigger-http \
+            --entry-point=probotApp \
+            --runtime=nodejs16 \
+            --gen2 \
+            --region=europe-west1 \
+            --set-secrets='PRIVATE_KEY=PRIVATE_KEY:latest,WEBHOOK_SECRET=WEBHOOK_SECRET:latest' \
+            --set-env-vars='APP_ID=243451,LOG_LEVEL=debug'
