@@ -23,6 +23,8 @@ jobs:
         run: |
           git checkout release/google-cloud-functions
           git reset --hard ${{ github.ref }}
+          git config user.email 'github@psalm.dev'
+          git config user.name 'Github Actions autocommiter'
           yarn install
           yarn build
           git add -f lib
