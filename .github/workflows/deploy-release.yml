@@ -16,11 +16,16 @@ jobs:
           git reset --hard ${{ github.ref }}
           git push --force
       - name: Build bot for Google Cloud functions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git checkout release/google-cloud-functions
           git reset --hard ${{ github.ref }}
+          git config user.email 'github@psalm.dev'
+          git config user.name 'Github Actions autocommiter'
           yarn install
           yarn build
           git add -f lib
           git commit --no-edit --message="Release ${{ github.ref_name }}"
           git push --force
+          gh workflow run deploy-cloud-function.yml --ref 'release/google-cloud-functions'
