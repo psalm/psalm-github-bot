@@ -41,6 +41,6 @@ jobs:
             --entry-point=probotApp \
             --runtime=nodejs16 \
             --gen2 \
-            --region=europe-west1 \
+            --region=us-east4 \
             --set-secrets='PRIVATE_KEY=PRIVATE_KEY:latest,WEBHOOK_SECRET=WEBHOOK_SECRET:latest' \
             --set-env-vars='APP_ID=243451,LOG_LEVEL=debug'
