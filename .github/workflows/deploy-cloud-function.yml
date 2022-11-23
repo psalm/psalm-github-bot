@@ -12,6 +12,7 @@ env:
   GCP_IDENTITY_POOL: github
   GCP_IDENTITY_PROVIDER: github
   GCP_SERVICE_ACCOUNT: github-deployer@psalm-github-bot.iam.gserviceaccount.com
+  GH_APP_ID: 48546
 
 permissions:
   id-token: write
@@ -43,4 +44,4 @@ jobs:
             --gen2 \
             --region=us-east4 \
             --set-secrets='PRIVATE_KEY=PRIVATE_KEY:latest,WEBHOOK_SECRET=WEBHOOK_SECRET:latest' \
-            --set-env-vars='APP_ID=243451,LOG_LEVEL=debug'
+            --set-env-vars='APP_ID=${{ env.GH_APP_ID }},LOG_LEVEL=debug'
