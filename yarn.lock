@@ -4213,10 +4213,10 @@ pretty-format@^27.0.0, pretty-format@^27.5.1:
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
 
-probot@^12.2.9:
-  version "12.2.9"
-  resolved "https://registry.yarnpkg.com/probot/-/probot-12.2.9.tgz#084a92ffb4cc30e6038830881a7ee338e78589fd"
-  integrity sha512-8T98zB6iN9oeRuHjAC0Hgt4JS6IgB9pNOkQKZL+ie2Zj4oZABLtzP2GhZXbEBNs7B5dUIFfSwApbKlY2yIxotg==
+probot@^12.3.0:
+  version "12.3.0"
+  resolved "https://registry.yarnpkg.com/probot/-/probot-12.3.0.tgz#0e379b522d4e30e78056abf8c8f98bafdf54d9c3"
+  integrity sha512-I7qpD6myIt5eEqAOv14mrbdh4HdLG1MQgCHGQJpIj6rdDeQaacQDL2THlMSqIU2VBcdIRpLqNv7D0z2NG0la3w==
   dependencies:
     "@octokit/core" "^3.2.4"
     "@octokit/plugin-enterprise-compatibility" "^1.2.8"
