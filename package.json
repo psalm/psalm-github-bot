@@ -27,18 +27,19 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
-    "@types/jest": "^27.4.1",
+    "@types/jest": "^29.0.0",
     "@types/nock": "^11.1.0",
     "@types/node": "^18.14.2",
     "@types/node-fetch": "^2.6.2",
     "@typescript-eslint/parser": "^5.53.0",
+    "eslint": "^8.35.0",
     "eslint-plugin-typescript": "^0.14.0",
-    "jest": "^27.5.1",
+    "jest": "^29.0.0",
     "nock": "^13.3.0",
     "nodemon": "^2.0.20",
     "smee-client": "^1.2.3",
     "standard": "^17.0.0",
-    "ts-jest": "^27.1.4",
+    "ts-jest": "^29.0.0",
     "typescript": "^4.9.5"
   },
   "engines": {
@@ -52,8 +53,5 @@
     "plugins": [
       "typescript"
     ]
-  },
-  "jest": {
-    "testEnvironment": "node"
   }
 }
