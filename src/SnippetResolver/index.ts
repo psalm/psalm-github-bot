@@ -1,8 +1,8 @@
-import type {Logger} from 'pino';
+import type { Logger } from 'pino';
 import fetch from 'node-fetch';
-import {performance, PerformanceObserver} from 'perf_hooks';
+import { performance, PerformanceObserver } from 'perf_hooks';
 import util from 'util';
-import {LinkEntry} from '../CommentParser';
+import { LinkEntry } from '../CommentParser';
 
 export class SnippetResolver {
   log: Logger;
@@ -14,7 +14,7 @@ export class SnippetResolver {
       this.log.debug('Logging the performance marks: %s', JSON.stringify(list))
       list.getEntries().forEach(entry => this.log.info('%s: %dms', entry.name, entry.duration))
     })
-    this.obs.observe({entryTypes: ['measure']})
+    this.obs.observe({ entryTypes: ['measure'] })
   }
 
   async resolve(link: LinkEntry): Promise<ResolvedSnippet> {
@@ -28,7 +28,7 @@ export class SnippetResolver {
     performance.mark(startMark)
 
     const text = await fetch(`${url}/raw`)
-      .then(async(response) => await response.text())
+      .then(async (response) => await response.text())
 
     performance.mark(snippetReceivedMark)
 
@@ -75,8 +75,8 @@ export class SnippetResolver {
 export interface ResolvedSnippet {
   link: string;
   text: string;
-  results: SnippetResults|null;
-  internalError: SnippetInternalError|null;
+  results: SnippetResults | null;
+  internalError: SnippetInternalError | null;
 }
 
 export interface SnippetResults {
