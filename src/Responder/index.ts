@@ -3,7 +3,7 @@ import { ResolvedSnippet, SnippetIssue } from "../SnippetResolver"
 export class Responder {
 
   greet(login: string) {
-    return `Hey @${login}, can you reproduce the issue on https://psalm.dev ?`
+    return `Hey @${login}, can you reproduce the issue on https://psalm.dev? These will be used as phpunit tests when implementing the feature or fixing this bug.`
   }
 
   shouldGreet(issue: string, repoName: string) {
@@ -62,7 +62,7 @@ ${snippetOutput}
     if (snippet.internalError !== null) {
       return this.formatInternalError(snippet)
     } else if (snippet.results !== null) {
-      return this.formatSnippetResult(snippet)  
+      return this.formatSnippetResult(snippet)
     }
     return '';
   }
