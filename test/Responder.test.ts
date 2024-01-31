@@ -62,7 +62,7 @@ describe('Responder', () => {
   describe('Actual greeting', () => {
     test('Greeting text', () => {
       expect(responder.greet('aUser'))
-        .toEqual('Hey @aUser, can you reproduce the issue on https://psalm.dev ?')
+        .toEqual('Hey @aUser, can you reproduce the issue on https://psalm.dev? These will be used as phpunit tests when implementing the feature or fixing this bug.')
     })
   })
 
