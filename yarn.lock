@@ -4890,10 +4890,10 @@ slash@^3.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
-smee-client@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/smee-client/-/smee-client-2.0.2.tgz#d6439d9bf426dfb1e6e284dd173b24e9df46f06e"
-  integrity sha512-5j7tlxKnHzZomJ1iK6QYiWK+3g6xPnisHyln1NcNvvoRbVeY7FstYonNkCsUMSnC3pYUE/mfV8OJ8SFiSjBCpA==
+smee-client@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/smee-client/-/smee-client-2.0.3.tgz#de57d90a2531af136e0f0496a88599376ad53fa8"
+  integrity sha512-W5tQKHzZFe+IMBlaAJ8Ho32Y2wbUbzriHAA2DAFXpITId+0dYHJJbAX36a/HMrGjW7yFjhcKCNPwRBAiIrlZGQ==
   dependencies:
     commander "^12.0.0"
     eventsource "^2.0.2"
