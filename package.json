@@ -29,7 +29,7 @@
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.13",
     "@types/nock": "^11.1.0",
-    "@types/node": "^22.7.4",
+    "@types/node": "^22.7.5",
     "@types/node-fetch": "^2.6.11",
     "@typescript-eslint/parser": "^8.8.1",
     "eslint": "^9.12.0",
