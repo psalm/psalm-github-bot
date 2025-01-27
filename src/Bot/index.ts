@@ -19,7 +19,6 @@ export class Bot {
   }
 
   async onIssueOpened(context: Context<'issues.opened'>) {
-    // @ts-ignore - Expression produces a union type that is too complex to represent
     const responded = await this.respond(context)
     if (false === responded) {
       await this.greet(context)
@@ -63,7 +62,9 @@ export class Bot {
     }
   }
 
-  private async respond(context: Context<'issues'>|Context<'issue_comment'>|Context<'pull_request'>): Promise<boolean | null> {
+  private async respond(
+    context: Context<'issues' | 'issue_comment' | 'pull_request'>
+  ): Promise<boolean | null> {
     if (context.isBot) {
       return null
     }
@@ -91,7 +92,7 @@ export class Bot {
   }
 
 
-  private async updateResponse(context: Context<'issues'>|Context<'issue_comment'>|Context<'pull_request'>) {
+  private async updateResponse(context: Context<'issues' | 'issue_comment' | 'pull_request'>) {
     let respondingTo;
     if ('comment' in context.payload) {
       respondingTo = context.payload.comment
