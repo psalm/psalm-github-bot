@@ -1,6 +1,7 @@
 {
   "name": "psalm-github-bot",
   "version": "1.0.0",
+  "main": "function.js",
   "private": true,
   "description": "Github bot that monitors comments for any links to psalm.dev/r/whatever and posts snippets and typecheck results for the snippet.",
   "author": "Bruce Weirdan <weirdan@gmail.com>",
