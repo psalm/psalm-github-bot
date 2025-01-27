@@ -1,5 +1,4 @@
 import type {Logger} from 'pino';
-import fetch from 'node-fetch';
 import {performance, PerformanceObserver} from 'perf_hooks';
 import util from 'util';
 import {LinkEntry} from '../CommentParser';
