@@ -1,14 +1,14 @@
-import { Probot } from 'probot' // eslint-disable-line no-unused-vars
-import { BotFactory } from './Bot'
+import { createNodeMiddleware, createProbot } from 'probot'
+import app from './app'
+import * as functions from '@google-cloud/functions-framework'
 
-export = (app: Probot) => {
-  const bot = BotFactory.make(app)
-
-  app.on('issues.opened', bot.onIssueOpened.bind(bot))
-  app.on('issue_comment.created', bot.onIssueCommentCreated.bind(bot))
-  app.on('issues.edited', bot.onIssueEdited.bind(bot))
-  app.on('issue_comment.edited', bot.onIssueCommentEdited.bind(bot))
-  app.on('issue_comment.deleted', bot.onIssueCommentDeleted.bind(bot))
-  app.on('pull_request.opened', bot.onPullRequestOpened.bind(bot))
-  app.on('pull_request.edited', bot.onPullRequestEdited.bind(bot))
-}
+const middleware = createNodeMiddleware(app, { probot: createProbot() })
+functions.http(
+  'probotApp',
+  async (req, res) => {
+    // @ts-ignore TS1345 - it actually returns bool, despite the wrong type specified by Probot
+    if (!await middleware(req, res)) {
+      res.status(404).send('Not found')
+    }
+  }
+)
