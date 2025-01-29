@@ -1,7 +1,7 @@
 {
   "name": "psalm-github-bot",
   "version": "1.0.0",
-  "main": "function.js",
+  "main": "lib/index.js",
   "private": true,
   "description": "Github bot that monitors comments for any links to psalm.dev/r/whatever and posts snippets and typecheck results for the snippet.",
   "author": "Bruce Weirdan <weirdan@gmail.com>",
@@ -18,12 +18,13 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "FORCE_COLOR=0 nodemon -w src -e ts --exec \"npm run-script start\"",
-    "start": "probot run ./lib/index.js",
+    "start": "probot run ./lib/app.js",
     "lint": "standard **/*.ts --fix",
     "test": "jest && standard **/*.ts",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
+    "@google-cloud/functions-framework": "^3.4.5",
     "probot": "^13.4.2"
   },
   "devDependencies": {
