@@ -3223,11 +3223,6 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
 
-eventsource@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.npmjs.org/eventsource/-/eventsource-2.0.2.tgz"
-  integrity sha512-IzUmBGPR3+oUG9dUeXynyNmf91/3zUSJg1lCktzKw47OXuhco54U3r9B7O4XX+Rb1Itm9OZ2b0RkTs10bICOxA==
-
 execa@^5.0.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/execa/-/execa-5.1.1.tgz#f80ad9cbf4298f7bd1d4c9555c21e93741c411dd"
@@ -6079,13 +6074,13 @@ slash@^3.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
-smee-client@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/smee-client/-/smee-client-2.0.4.tgz#796d44e30104d0d222140b8d38cedde89855da7b"
-  integrity sha512-RxXCs0mfaxpI8JF4SeTM51XtRiprzW5g20HVt4aTQ36EB+RaN0aj0m/4EbXLGdfPlqahQ09d3UnJYmALN2CbYw==
+smee-client@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/smee-client/-/smee-client-3.0.0.tgz#6031e9ffc4da513ebe5ae32c37f9269d2cd16e89"
+  integrity sha512-EoyiQ+9cQN+CT5F/KLXmnnIQFU3BlVdedgUxCn8V9q+z1m2XTFeta+KP/tcJn8Ie2CJWxfnsEZkzlJE//CN5gg==
   dependencies:
     commander "^12.0.0"
-    eventsource "^2.0.2"
+    undici "^6.19.8"
     validator "^13.11.0"
 
 sonic-boom@^4.0.1:
@@ -6570,6 +6565,11 @@ undici-types@~6.20.0:
   version "6.20.0"
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.20.0.tgz#8171bf22c1f588d1554d55bf204bc624af388433"
   integrity sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==
+
+undici@^6.19.8:
+  version "6.21.1"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-6.21.1.tgz#336025a14162e6837e44ad7b819b35b6c6af0e05"
+  integrity sha512-q/1rj5D0/zayJB2FraXdaWxbhWiNKDvu8naDT2dl1yTlvJp4BLtOcp2a5BvgGNQpYYJzau7tf1WgKv3b+7mqpQ==
 
 universal-github-app-jwt@^1.1.2:
   version "1.2.0"
