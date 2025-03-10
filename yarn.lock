@@ -457,10 +457,10 @@
     "@eslint/core" "^0.12.0"
     levn "^0.4.1"
 
-"@google-cloud/functions-framework@^3.4.5":
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/@google-cloud/functions-framework/-/functions-framework-3.4.5.tgz#43636959c59b2395b061bb25c5bf0879fd2de900"
-  integrity sha512-mf3Yw3kRPsz0K7TytvSoqO3peuVZWPi9B3S8zacIk49zi2WqL+rjHaw4zPZ8T3O89jDsCZVj5PFpDJC6Ge4mpA==
+"@google-cloud/functions-framework@^3.4.6":
+  version "3.4.6"
+  resolved "https://registry.yarnpkg.com/@google-cloud/functions-framework/-/functions-framework-3.4.6.tgz#1d5257eaa02aa78287eb7bf51e9dff00455ed4da"
+  integrity sha512-4jX0uFNPE5issV3T5jpwHX25NDzF3WQ+wkx5Ege1zJuOTIXVIz+qGV/bFOKiKu7U3+qONNQatm84C4Zlx5xBLA==
   dependencies:
     "@types/express" "^5.0.0"
     body-parser "^1.18.3"
@@ -4996,12 +4996,7 @@ minimatch@^9.0.4:
   dependencies:
     brace-expansion "^2.0.1"
 
-minimist@^1.2.0, minimist@^1.2.6:
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.7.tgz#daa1c4d91f507390437c6a8bc01078e7000c4d18"
-  integrity sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==
-
-minimist@^1.2.8:
+minimist@^1.2.0, minimist@^1.2.6, minimist@^1.2.8:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
