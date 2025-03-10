@@ -3216,6 +3216,18 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
 
+eventsource-parser@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/eventsource-parser/-/eventsource-parser-3.0.0.tgz#9303e303ef807d279ee210a17ce80f16300d9f57"
+  integrity sha512-T1C0XCUimhxVQzW4zFipdx0SficT651NnkR0ZSH3yQwh+mFMdLfgjABVi4YtMTtaL4s168593DaoaRLMqryavA==
+
+eventsource@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/eventsource/-/eventsource-3.0.5.tgz#0cae1eee2d2c75894de8b02a91d84e5c57f0cc5a"
+  integrity sha512-LT/5J605bx5SNyE+ITBDiM3FxffBiq9un7Vx0EwMDM3vg8sWKx/tO2zC+LMqZ+smAM0F2hblaDZUVZF0te2pSw==
+  dependencies:
+    eventsource-parser "^3.0.0"
+
 execa@^5.0.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/execa/-/execa-5.1.1.tgz#f80ad9cbf4298f7bd1d4c9555c21e93741c411dd"
@@ -6062,12 +6074,13 @@ slash@^3.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
-smee-client@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/smee-client/-/smee-client-3.0.0.tgz#6031e9ffc4da513ebe5ae32c37f9269d2cd16e89"
-  integrity sha512-EoyiQ+9cQN+CT5F/KLXmnnIQFU3BlVdedgUxCn8V9q+z1m2XTFeta+KP/tcJn8Ie2CJWxfnsEZkzlJE//CN5gg==
+smee-client@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/smee-client/-/smee-client-3.1.1.tgz#1c19178a2647cf34ed3cb1e8e73f59e6374dcae4"
+  integrity sha512-2XGrGA83suqtC/Vn1v/MUAPN+hLSYwTiopqjx97tHGzKMBLJYIeCEcch2dfqFLEXInS6U1pm+jwSQFbphLrg9w==
   dependencies:
     commander "^12.0.0"
+    eventsource "^3.0.5"
     undici "^6.19.8"
     validator "^13.11.0"
 
