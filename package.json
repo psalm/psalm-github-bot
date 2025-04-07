@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^3.5.1",
-    "probot": "^13.4.4"
+    "probot": "^13.4.5"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
