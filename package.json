@@ -28,7 +28,7 @@
     "probot": "^13.4.5"
   },
   "devDependencies": {
-    "@types/express": "^5.0.1",
+    "@types/express": "^5.0.2",
     "@types/jest": "^29.5.14",
     "@types/nock": "^11.1.0",
     "@types/node": "^22.15.19",
