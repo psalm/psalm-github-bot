@@ -3290,17 +3290,17 @@ etag@^1.8.1, etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
 
-eventsource-parser@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/eventsource-parser/-/eventsource-parser-3.0.0.tgz#9303e303ef807d279ee210a17ce80f16300d9f57"
-  integrity sha512-T1C0XCUimhxVQzW4zFipdx0SficT651NnkR0ZSH3yQwh+mFMdLfgjABVi4YtMTtaL4s168593DaoaRLMqryavA==
+eventsource-parser@^3.0.1:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/eventsource-parser/-/eventsource-parser-3.0.2.tgz#0fea1abd26eca8201099ff5212f6c4e7ca2fd5d3"
+  integrity sha512-6RxOBZ/cYgd8usLwsEl+EC09Au/9BcmCKYF2/xbml6DNczf7nv0MQb+7BA2F+li6//I+28VNlQR37XfQtcAJuA==
 
-eventsource@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/eventsource/-/eventsource-3.0.5.tgz#0cae1eee2d2c75894de8b02a91d84e5c57f0cc5a"
-  integrity sha512-LT/5J605bx5SNyE+ITBDiM3FxffBiq9un7Vx0EwMDM3vg8sWKx/tO2zC+LMqZ+smAM0F2hblaDZUVZF0te2pSw==
+eventsource@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/eventsource/-/eventsource-4.0.0.tgz#caf02d04143f663a61b09a993d0097e552e2b1d1"
+  integrity sha512-fvIkb9qZzdMxgZrEQDyll+9oJsyaVvY92I2Re+qK0qEJ+w5s0X3dtz+M0VAPOjP1gtU3iqWyjQ0G3nvd5CLZ2g==
   dependencies:
-    eventsource-parser "^3.0.0"
+    eventsource-parser "^3.0.1"
 
 execa@^5.0.0:
   version "5.1.1"
@@ -6379,14 +6379,13 @@ slash@^3.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
-smee-client@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/smee-client/-/smee-client-3.1.1.tgz#1c19178a2647cf34ed3cb1e8e73f59e6374dcae4"
-  integrity sha512-2XGrGA83suqtC/Vn1v/MUAPN+hLSYwTiopqjx97tHGzKMBLJYIeCEcch2dfqFLEXInS6U1pm+jwSQFbphLrg9w==
+smee-client@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/smee-client/-/smee-client-4.2.0.tgz#429ac9cf3d34007164aa81b893042ba3cbb891a9"
+  integrity sha512-dh8QOyjUQHGckkO4H02ALEzdz23V14gNM/ZKJBsojIJA/I5VnG6aonH8ecXIgrj+rH8pUm9xrq9vc+yFCYo57g==
   dependencies:
-    commander "^12.0.0"
-    eventsource "^3.0.5"
-    undici "^6.19.8"
+    eventsource "^4.0.0"
+    undici "^7.0.0"
     validator "^13.11.0"
 
 sonic-boom@^4.0.1:
@@ -6877,10 +6876,10 @@ undici-types@~6.21.0:
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.21.0.tgz#691d00af3909be93a7faa13be61b3a5b50ef12cb"
   integrity sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==
 
-undici@^6.19.8:
-  version "6.21.3"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-6.21.3.tgz#185752ad92c3d0efe7a7d1f6854a50f83b552d7a"
-  integrity sha512-gBLkYIlEnSp8pFbT64yFgGE6UIB9tAkhukC23PmMDCe5Nd+cRqKxSjw5y54MK2AZMgZfJWMaNE4nYUHgi1XEOw==
+undici@^7.0.0:
+  version "7.10.0"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-7.10.0.tgz#8ae17a976acc6593b13c9ff3342840bea9b24670"
+  integrity sha512-u5otvFBOBZvmdjWLVW+5DAc9Nkq8f24g0O9oY7qw2JVIF1VocIFoyz9JFkuVOS2j41AufeO0xnlweJ2RLT8nGw==
 
 unicorn-magic@^0.1.0:
   version "0.1.0"
