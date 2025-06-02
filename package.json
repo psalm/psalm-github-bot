@@ -31,7 +31,7 @@
     "@types/express": "^5.0.2",
     "@types/jest": "^29.5.14",
     "@types/nock": "^11.1.0",
-    "@types/node": "^22.15.19",
+    "@types/node": "^22.15.29",
     "@typescript-eslint/parser": "^8.32.1",
     "eslint": "^9.27.0",
     "eslint-plugin-typescript": "^0.14.0",
