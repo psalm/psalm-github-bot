@@ -33,7 +33,7 @@
     "@types/nock": "^11.1.0",
     "@types/node": "^24.5.2",
     "@typescript-eslint/parser": "^8.44.1",
-    "eslint": "^9.36.0",
+    "eslint": "^9.37.0",
     "eslint-plugin-typescript": "^0.14.0",
     "jest": "^30.2.0",
     "nock": "^14.0.10",
