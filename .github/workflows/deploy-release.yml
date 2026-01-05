@@ -10,6 +10,11 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: yarn
       - name: Build bot for Google Cloud functions
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
