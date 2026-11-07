@@ -57,7 +57,7 @@ export class Bot {
         body: this.responder.greet(issue.user.login)
       })
       await delay(1000)
-      const result = await context.octokit.issues.createComment(issueComment)
+      const result = await context.octokit.rest.issues.createComment(issueComment)
       this.responses.set(issue.id, result.data.id)
     }
   }
@@ -84,7 +84,7 @@ export class Bot {
         body: await this.makeResponse(links)
       })
       await delay(1000)
-      const result = await context.octokit.issues.createComment(issueComment)
+      const result = await context.octokit.rest.issues.createComment(issueComment)
 
       this.responses.set(respondingTo.id, result.data.id)
     }
@@ -111,9 +111,9 @@ export class Bot {
           comment_id: existingResponseId,
           body: await this.makeResponse(links)
         })
-        await context.octokit.issues.updateComment(issueComment)
+        await context.octokit.rest.issues.updateComment(issueComment)
       } else {
-        await context.octokit.issues.deleteComment(context.issue({
+        await context.octokit.rest.issues.deleteComment(context.issue({
           comment_id: existingResponseId
         }))
         this.responses.delete(respondingTo.id)
@@ -126,7 +126,7 @@ export class Bot {
     const comment = context.payload.comment;
     if (this.responses.has(comment.id)) {
       const existingResponseId = this.responses.get(comment.id) as number;
-      await context.octokit.issues.deleteComment(context.issue({
+      await context.octokit.rest.issues.deleteComment(context.issue({
         comment_id: existingResponseId
       }));
       this.responses.delete(comment.id);
