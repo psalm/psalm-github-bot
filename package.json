@@ -20,8 +20,8 @@
     "dev": "FORCE_COLOR=0 nodemon -w src -e ts --exec \"npm run-script start\"",
     "start": "probot run ./lib/app.js",
     "lint": "standard **/*.ts --fix",
-    "test": "jest && standard **/*.ts",
-    "test:watch": "jest --watch --notify --notifyMode=change --coverage"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest && standard **/*.ts",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^5.0.5",
@@ -36,7 +36,7 @@
     "eslint": "^9.39.2",
     "eslint-plugin-typescript": "^0.14.0",
     "jest": "^30.5.2",
-    "nock": "^14.0.10",
+    "nock": "^15.0.5",
     "nodemon": "^3.1.14",
     "smee-client": "^5.0.0",
     "standard": "^17.1.2",
