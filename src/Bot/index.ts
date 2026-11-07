@@ -52,7 +52,7 @@ export class Bot {
 
   private async greet(context: Context<'issues'>) {
     const issue = context.payload.issue
-    if (this.responder.shouldGreet(issue.body ?? '', context.payload.repository.full_name)) {
+    if (issue.user && this.responder.shouldGreet(issue.body ?? '', context.payload.repository.full_name)) {
       const issueComment = context.issue({
         body: this.responder.greet(issue.user.login)
       })
