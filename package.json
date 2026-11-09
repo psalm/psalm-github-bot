@@ -41,7 +41,7 @@
     "smee-client": "^5.0.0",
     "standard": "^17.1.2",
     "ts-jest": "^29.4.15",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "engines": {
     "node": "~24"
