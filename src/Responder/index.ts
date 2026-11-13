@@ -3,7 +3,7 @@ import { ResolvedSnippet, SnippetIssue } from "../SnippetResolver"
 export class Responder {
 
   greet(login: string) {
-    return `Hey @${login}, can you reproduce the issue on https://psalm.dev? These will be used as phpunit tests when implementing the feature or fixing this bug.`
+    return `Hey @${login}, can you reproduce the issue on https://psalm.dev/play? These will be used as phpunit tests when implementing the feature or fixing this bug.`
   }
 
   shouldGreet(issue: string, repoName: string) {
