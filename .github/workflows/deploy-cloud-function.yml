@@ -44,6 +44,7 @@ jobs:
             --gen2 \
             --region=us-east4 \
             --cpu=1 \
+            --memory=256M \
             --concurrency=10 \
             --set-secrets='PRIVATE_KEY=PRIVATE_KEY:latest,WEBHOOK_SECRET=WEBHOOK_SECRET:latest' \
             --set-env-vars='APP_ID=${{ env.GH_APP_ID }},LOG_LEVEL=debug'
